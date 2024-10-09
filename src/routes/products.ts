@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
 
 const prisma = new PrismaClient();
-const router = Router();
+export const productRouter = Router();
 
 /**
  * @swagger
@@ -72,7 +72,7 @@ const router = Router();
  *                   items:
  *                     $ref: '#/components/schemas/Product'
  */
-router.get('/', async (req, res) => {
+productRouter.get('/', async (req, res) => {
   const { page = '1', page_size = '10' } = req.query;
   
   const pageNumber = parseInt(page as string);
@@ -125,7 +125,7 @@ router.get('/', async (req, res) => {
  *       404:
  *         description: Product not found
  */
-router.get('/:id', async (req, res) => {
+productRouter.get('/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -168,7 +168,7 @@ router.get('/:id', async (req, res) => {
  *       400:
  *         description: Missing required fields
  */
-router.post('/', async (req, res) => {
+productRouter.post('/', async (req, res) => {
   const { name, category, price } = req.body;
 
   if (!name) {
@@ -227,7 +227,7 @@ router.post('/', async (req, res) => {
  *       400:
  *         description: Error updating product
  */
-router.patch('/:id', async (req, res) => {
+productRouter.patch('/:id', async (req, res) => {
   const { id } = req.params;
   const { name, category, price } = req.body;
 
@@ -263,7 +263,7 @@ router.patch('/:id', async (req, res) => {
  *       400:
  *         description: Error deleting product
  */
-router.delete('/:id', async (req, res) => {
+productRouter.delete('/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -277,5 +277,3 @@ router.delete('/:id', async (req, res) => {
     res.status(400).json({ error: 'Não foi possível deletar o produto' });
   }
 });
-
-export default router;
