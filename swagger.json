@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3333/api"
+      "url": "http://produtos.gildembergleite.com.br/api"
     }
   ],
   "paths": {
@@ -237,5 +237,8 @@
         }
       }
     }
-  }
+  },
+  "tags": [
+    
+  ]
 }
