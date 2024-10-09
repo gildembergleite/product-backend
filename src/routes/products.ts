@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { Router } from "express";
 
 const prisma = new PrismaClient();
@@ -96,8 +97,9 @@ productRouter.get('/', async (req, res) => {
       results: products,
     });
     
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    const error = err as PrismaClientKnownRequestError
+    console.error(error.meta);
     res.status(500).json({ error: 'Não foi possível listar os produtos' });
   }
 });
@@ -140,8 +142,9 @@ productRouter.get('/:id', async (req, res) => {
     } else {
       res.status(404).json({ error: 'Produto não encontrado' });
     }
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    const error = err as PrismaClientKnownRequestError
+    console.error(error.meta);
     res.status(500).json({ error: 'Erro ao buscar o produto' });
   }
 });
@@ -192,8 +195,9 @@ productRouter.post('/', async (req, res) => {
     });
 
     res.json(product);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    const error = err as PrismaClientKnownRequestError
+    console.error(error.meta);
     res.status(400).json({ error: 'Não foi possível criar o produto' });
   }
 });
@@ -242,11 +246,10 @@ productRouter.patch('/:id', async (req, res) => {
     } else {
       res.status(400).json({ error: 'Produto não encontrado!' });
     }
-    
-    console.log('\nProduto: ', product)
 
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    const error = err as PrismaClientKnownRequestError
+    console.error(error.meta);
     res.status(400).json({ error: 'Não foi possível atualizar o produto' });
   }
 });
@@ -272,7 +275,7 @@ productRouter.patch('/:id', async (req, res) => {
  */
 productRouter.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  console.log('\nID do produto: ', id)
+  
   try {
     const product = await prisma.product.delete({
       where: { id: Number(id) },
@@ -284,10 +287,9 @@ productRouter.delete('/:id', async (req, res) => {
       res.status(400).json({ error: 'Produto não encontrado!' });
     }
 
-    console.log('\nProduto: ', product)
-
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    const error = err as PrismaClientKnownRequestError
+    console.error(error.meta);
     res.status(400).json({ error: 'Não foi possível deletar o produto' });
   }
 });
