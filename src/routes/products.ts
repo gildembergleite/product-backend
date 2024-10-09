@@ -44,7 +44,7 @@ router.get('/:id', async (req, res) => {
   })
   
   if (product) {
-    res.json(product)
+    res.status(201).json(product)
   } else {
     res.status(404).json({ error: 'Produto não encontrado' })
   }
@@ -111,7 +111,7 @@ router.delete('/:id', async (req, res) => {
     })
 
     if (product) {
-      res.status(204).json(product)
+      res.status(204).end()
     } else {
       res.status(400).json({ error: 'Não foi localizado nenhum produto com o id informado' })
     }
