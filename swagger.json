@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://produtos.gildembergleite.com.br/api"
+      "url": "https://services-products.p7fvz0.easypanel.host/api"
     }
   ],
   "paths": {
