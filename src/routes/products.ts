@@ -237,7 +237,12 @@ productRouter.patch('/:id', async (req, res) => {
       data: { name, category, price: parseFloat(price) },
     });
 
-    res.json(product);
+    if (product) {
+      res.json(product);
+    } else {
+      res.status(400).json({ error: 'Produto não encontrado!' });
+    }
+
   } catch (error) {
     console.error(error);
     res.status(400).json({ error: 'Não foi possível atualizar o produto' });
@@ -267,11 +272,16 @@ productRouter.delete('/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    await prisma.product.delete({
+    const product = await prisma.product.delete({
       where: { id: Number(id) },
     });
 
-    res.status(204).end();
+    if (product) {
+      res.status(204).end();
+    } else {
+      res.status(400).json({ error: 'Produto não encontrado!' });
+    }
+
   } catch (error) {
     console.error(error);
     res.status(400).json({ error: 'Não foi possível deletar o produto' });
